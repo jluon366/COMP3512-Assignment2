@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>F1 Project with JavaScript</title>
+</head>
+
+<body>
+    <div class="container mx-auto p-1">
+        <header class="bg-gray-100 rounded-md">
+            <div class="flex justify-center items-center gap-2 p-6">
+                <img src="./assets/logo.png" alt="f1 car vector" class="w-20">
+                <h3 class="text-3xl uppercase font-bold tracking-wide">Formula 1 Racing</h3>
+            </div>
+        </header>
+
+        <main class="mt-4">
+            <!-- home section -->
+            <section id="home" class="flex min-h-[600px] gap-4">
+                <aside class="basis-96 bg-gray-100 rounded-md p-4">
+                    <div>
+                        <p class="text-sm">
+                            Stay ahead of the race with Formula 1 Racing! Your ultimate source for all things Formula
+                            1! Follow races, explore driver stats, and dive into the latest news and
+                            insights. Whether you're a casual fan or a die-hard enthusiast, we've got you covered!
+                        </p>
+                    </div>
+                    <div class="mt-8 flex justify-center items-center gap-3 font-bold">
+                        <label for="season-select">Season</label>
+                        <select name="season-select" id="season-select"
+                            class="w-full text-center p-2 border border-blue-300 cursor-pointer outline-none">
+                            <option value="" disabled selected>Select a season</option>
+                            <option value="2020">2020</option>
+                            <option value="2021">2021</option>
+                            <option value="2022">2022</option>
+                            <option value="2023">2023</option>
+                        </select>
+                    </div>
+                </aside>
+                <article class="w-full min-h-[600px] min-h bg-gray-100 rounded-md p-4 flex justify-center items-center">
+                    <p class="text-xl">Please select a season to view results</p>
+                </article>
+            </section>
+
+            <!-- races section -->
+            <section id="race" class="flex min-h-[600px] gap-4 hidden">
+                <aside class="basis-96 bg-gray-100 rounded-md p-4">
+                    <h2 class="font-bold text-xl text-center"><span id="race-year">2020</span>&nbsp;Races</h2>
+                    <ul class="mt-4" id="season-result"></ul>
+                </aside>
+                <article class="w-full min-h-[600px] min-h bg-gray-100 rounded-md p-4 flex justify-center items-center"
+                    id="race-no-result">
+                    <p class="text-xl">Please select a race to view results</p>
+                </article>
+                <article id="race-result" class="hidden w-full min-h-[600px] min-h bg-gray-100 rounded-md p-4">
+
+                </article>
+            </section>
+        </main>
+        <div id="modal"
+            class="hidden p-4 bg-white border border-2 border-blue-400 shadow-lg min-w-[800px] min-h-[500px] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
+            <div>
+                <button id="modal-close" class="font-bold text-2xl mb-4 text-red-600" onclick="closeModal()">&times;
+                    Close</button>
+            </div>
+            <div id="constructor-modal" class="hidden flex"></div>
+            <div id="driver-modal" class="hidden flex"></div>
+            <div id="circuit-modal" class="hidden flex flex-col gap-4 text-center"></div>
+        </div>
+    </div>
+    <script src="./js/main.js"></script>
+</body>
+
+</html>
