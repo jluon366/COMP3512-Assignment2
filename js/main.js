@@ -204,6 +204,13 @@ const updateRaceResultsHTML = (race) => {
   });
 };
 
+function sortTable(tableType, column) {
+  const tableBody = document.getElementById(tableType);
+  const data =
+    tableType === "qualifying"
+      ? state.currentRace.qualifying
+      : state.currentRace.results;
+
   // Determine the property to sort by
   const keyMap = {
     position: "position",
@@ -230,6 +237,16 @@ const updateRaceResultsHTML = (race) => {
     } else {
       valA = a[keyMap[column]];
       valB = b[keyMap[column]];
+    }
+
+    // Convert to numbers for numeric sorting
+    if (!isNaN(valA) && !isNaN(valB)) {
+      valA = Number(valA);
+      valB = Number(valB);
+    }
+
+    if (column.startsWith("q")) {
+      [valA, valB] = [valB, valA];
     }
 
     // Ascending order
@@ -266,3 +283,63 @@ const updateRaceResultsHTML = (race) => {
               ${entry.driver.forename} ${entry.driver.surname}
             </button>
           </td>
+          <td class="p-2 border">
+            <button onclick="openModal('constructor', '${entry.constructor.ref}')" class="text-blue-500 hover:underline">
+              ${entry.constructor.name}
+            </button>
+          </td>
+          <td class="p-2 border">${entry.laps}</td>
+          <td class="p-2 border">${entry.points}</td>
+        `;
+    }
+    tableBody.appendChild(row);
+  });
+}
+
+updateCircuitModalHTML = (data) => {
+  circuitModal.innerHTML = `
+    <h3 class="font-bold text-xl">Circuit Details</h3>
+    <p>Name: ${data.name}</p>
+    <p>${data.location}, ${data.country}</p>
+    <a href="${data.url}" target="_blank" class="text-blue-400">More Details</a>
+    <img src="https://placehold.co/400" class="max-w-400" />
+  `;
+};
+
+const updateDriverModalHTML = (data) => {
+  const leftHTML = `
+    <h3 class="font-bold text-xl">Driver Details</h3>
+    <p>Name: ${data.forename} ${data.surname}</p>
+    <p>Nationality: ${data.nationality}</p>
+    <a href="${data.url}" target="_blank" class="text-blue-400">More Details</a>
+    <img src="https://placehold.co/400" />
+  `;
+
+  // Construct the right (article) HTML
+  let rightHTML = `
+    <h3 class="font-bold text-xl">Race Results</h3>
+    <div class="max-h-[400px] overflow-auto">
+    <table class="w-full border-collapse border border-gray-300">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border border-gray-300 px-4 py-2 text-left">Round</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Name</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Driver</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Position</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  // Populate table rows with race results
+  data.races.forEach((result) => {
+    rightHTML += `
+      <tr>
+        <td class="border border-gray-300 px-4 py-2">${result.round}</td>
+        <td class="border border-gray-300 px-4 py-2">${result.name}</td>
+        <td class="border border-gray-300 px-4 py-2">${result.forename} ${result.surname}</td>
+        <td class="border border-gray-300 px-4 py-2">${result.positionOrder}</td>
+      </tr>
+    `;
+  });
+}
