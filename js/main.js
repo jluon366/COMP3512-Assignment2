@@ -342,4 +342,78 @@ const updateDriverModalHTML = (data) => {
       </tr>
     `;
   });
-}
+
+  rightHTML += `</tbody></table></div>`;
+
+  driverModal.innerHTML = `
+    <aside class="w-1/4 pr-4 border-r flex flex-col gap-4">
+      ${leftHTML}
+    </aside>
+    <article class="w-3/4 pl-4">
+      ${rightHTML}
+    </article>
+  `;
+};
+
+const updateConstructorModalHTML = (data) => {
+  const leftHTML = `
+    <h3 class="font-bold text-xl">Constructor Details</h3>
+    <p>Name: ${data.name}</p>
+    <p>Nationality: ${data.nationality}</p>
+    <a href="${data.url}" target="_blank" class="text-blue-400">More Details</a>
+  `;
+
+  // Construct the right (article) HTML
+  let rightHTML = `
+    <h3 class="font-bold text-xl">Race Results</h3>
+    <div class="max-h-[400px] overflow-auto">
+    <table class="w-full border-collapse border border-gray-300">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="border border-gray-300 px-4 py-2 text-left">Round</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Name</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Driver</th>
+          <th class="border border-gray-300 px-4 py-2 text-left">Position</th>
+        </tr>
+      </thead>
+      <tbody>
+  `;
+
+  // Populate table rows with race results
+  data.races.forEach((result) => {
+    rightHTML += `
+      <tr>
+        <td class="border border-gray-300 px-4 py-2">${result.round}</td>
+        <td class="border border-gray-300 px-4 py-2">${result.name}</td>
+        <td class="border border-gray-300 px-4 py-2">${result.forename} ${result.surname}</td>
+        <td class="border border-gray-300 px-4 py-2">${result.positionOrder}</td>
+      </tr>
+    `;
+  });
+
+  rightHTML += `</tbody></table></div>`;
+
+const closeModal = () => {
+  modal.classList.add("hidden");
+};
+
+const openModal = async (name, ref) => {
+  constructorModal.classList.add("hidden");
+  driverModal.classList.add("hidden");
+  circuitModal.classList.add("hidden");
+
+  if (name === "constructor") {
+    const infoResponse = await fetch(`${API_URL}/constructors.php?ref=${ref}`);
+    const data = await infoResponse.json();
+
+    const raceResponse = await fetch(
+      `${API_URL}/constructorResults.php?ref=${ref}&season=${state.season}`
+    );
+
+    data.races = await raceResponse.json();
+
+    const raceResponse = await fetch(
+      `${API_URL}/driverResults.php?driver=${ref}&season=${state.season}`
+    );
+
+    data.races = await raceResponse.json();
