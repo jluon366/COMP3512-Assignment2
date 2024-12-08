@@ -393,6 +393,16 @@ const updateConstructorModalHTML = (data) => {
 
   rightHTML += `</tbody></table></div>`;
 
+  constructorModal.innerHTML = `
+    <aside class="w-1/4 pr-4 border-r flex flex-col gap-4">
+      ${leftHTML}
+    </aside>
+    <article class="w-3/4 pl-4">
+      ${rightHTML}
+    </article>
+  `;
+};
+
 const closeModal = () => {
   modal.classList.add("hidden");
 };
@@ -412,8 +422,92 @@ const openModal = async (name, ref) => {
 
     data.races = await raceResponse.json();
 
+    updateConstructorModalHTML(data);
+    constructorModal.classList.remove("hidden");
+  } else if (name === "driver") {
+    const infoResponse = await fetch(`${API_URL}/drivers.php?ref=${ref}`);
+    const data = await infoResponse.json();
+
     const raceResponse = await fetch(
       `${API_URL}/driverResults.php?driver=${ref}&season=${state.season}`
     );
 
     data.races = await raceResponse.json();
+
+    updateDriverModalHTML(data);
+    driverModal.classList.remove("hidden");
+  } else if (name === "circuit") {
+    const response = await fetch(`${API_URL}/circuits.php?ref=${ref}`);
+    const data = await response.json();
+
+    updateCircuitModalHTML(data);
+    circuitModal.classList.remove("hidden");
+  }
+
+  modal.classList.remove("hidden");
+};
+
+const showSeasonInfo = (season) => {
+  seasonResult.innerHTML = `
+    <li class="grid grid-cols-[40px_1fr_70px] font-bold">
+        <p>Rnd</p>
+        <p>Name</p>
+    </li>
+    `;
+
+  for (const race of state.races[season]) {
+    const li = document.createElement("li");
+    li.classList.add(
+      "mt-2",
+      "grid",
+      "grid-cols-[40px_1fr_70px]",
+      "items-center",
+      "text-sm"
+    );
+    li.innerHTML = `
+        <p>${race.round}</p>
+        <p>${race.name}</p>
+    `;
+
+    const resultBtn = document.createElement("button");
+    resultBtn.classList.add("p-1", "bg-white", "border", "border-blue-300");
+    resultBtn.textContent = "results";
+    resultBtn.addEventListener("click", () => showRaceInfo(race));
+
+    li.append(resultBtn);
+    seasonResult.append(li);
+  }
+};
+
+const handleSeasonChange = async (event) => {
+  const value = Number(event.target.value);
+  state.season = value;
+  console.log(value, state.races);
+  raceYear.textContent = value;
+  changeView("race");
+
+  if (state.races[value].length === 0) {
+    const races = await getRaces(value);
+    addRaceToLocalStorage(value, races);
+    state.races[value] = races;
+  }
+
+  showSeasonInfo(value);
+};
+
+const loadStateFromLS = () => {
+  const seasons = [2020, 2021, 2022, 2023];
+  for (const season of seasons) {
+    const race = localStorage.getItem("apex-races-" + season);
+    if (race) {
+      state.races[season] = JSON.parse(race);
+    }
+  }
+};
+
+const main = () => {
+  loadStateFromLS();
+  seasonSelect.addEventListener("change", handleSeasonChange);
+};
+
+window.addEventListener("DOMContentLoaded", main);
