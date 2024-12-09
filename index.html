@@ -10,7 +10,8 @@
 
 <body>
     <div class="container mx-auto p-1">
-        <header class="bg-gray-100 rounded-md">
+        <header class="bg-gray-100 rounded-md relative">
+            <a href="/" class="bg-blue-400 text-white p-4 rounded-md absolute top-[10px] left-[10px]">Home</a>
             <div class="flex justify-center items-center gap-2 p-6">
                 <img src="./assets/logo.png" alt="f1 car vector" class="w-20">
                 <h3 class="text-3xl uppercase font-bold tracking-wide">Formula 1 Racing</h3>
@@ -40,7 +41,9 @@
                         </select>
                     </div>
                 </aside>
-                <article class="w-full min-h-[600px] min-h bg-gray-100 rounded-md p-4 flex justify-center items-center">
+                <article 
+                    class="w-full min-h-[600px] min-h bg-gray-100 rounded-md p-4 flex flex-col justify-center items-center">
+                    <img src="./assets/hero-banner.jpg" alt="" class="w-[400px]">
                     <p class="text-xl">Please select a season to view results</p>
                 </article>
             </section>
@@ -62,7 +65,7 @@
         </main>
         <div id="modal"
             class="hidden p-4 bg-white border border-2 border-blue-400 shadow-lg min-w-[800px] min-h-[500px] absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%]">
-            <div>
+            <div class="flex justify-between items-center">
                 <button id="modal-close" class="font-bold text-2xl mb-4 text-red-600" onclick="closeModal()">&times;
                     Close</button>
             </div>

@@ -79,7 +79,7 @@ const updateRaceResultsHTML = (race) => {
 
   // Second Div - Round, Year, Circuit, etc.
   const detailsDiv = document.createElement("div");
-  detailsDiv.className = "space-y-2";
+  detailsDiv.className = "mt-6 flex gap-8 justify-center items-center w-full";
   detailsDiv.innerHTML = `
       <p><strong>Round:</strong> ${race.round}</p>
       <p><strong>Year:</strong> ${race.year}</p>
@@ -109,12 +109,12 @@ const updateRaceResultsHTML = (race) => {
   qualifyingTable.innerHTML = `
       <thead class="bg-gray-100">
         <tr>
-          <th class="p-2 border" onclick="sortTable('qualifying', 'position')">Position</th>
-          <th class="p-2 border" onclick="sortTable('qualifying', 'driver')">Driver</th>
-          <th class="p-2 border" onclick="sortTable('qualifying', 'constructor')">Constructor</th>
-          <th class="p-2 border" onclick="sortTable('qualifying', 'q1')">Q1</th>
-          <th class="p-2 border" onclick="sortTable('qualifying', 'q2')">Q2</th>
-          <th class="p-2 border" onclick="sortTable('qualifying', 'q3')">Q3</th>
+          <th class="p-2 border sortable" id="qualifying-position" onclick="sortTable('qualifying', 'position')">Position</th>
+          <th class="p-2 border sortable" id="qualifying-driver" onclick="sortTable('qualifying', 'driver')">Driver</th>
+          <th class="p-2 border sortable" id="qualifying-constructor" onclick="sortTable('qualifying', 'constructor')">Constructor</th>
+          <th class="p-2 border sortable" id="qualifying-q1" onclick="sortTable('qualifying', 'q1')">Q1</th>
+          <th class="p-2 border sortable" id="qualifying-q2" onclick="sortTable('qualifying', 'q2')">Q2</th>
+          <th class="p-2 border sortable" id="qualifying-q3" onclick="sortTable('qualifying', 'q3')">Q3</th>
         </tr>
       </thead>
       <tbody id="qualifying"></tbody>
@@ -170,9 +170,9 @@ const updateRaceResultsHTML = (race) => {
   resultsTable.innerHTML = `
       <thead class="bg-gray-100">
         <tr>
-          <th class="p-2 border" onclick="sortTable('results', 'position')">Position</th>
-          <th class="p-2 border" onclick="sortTable('results', 'driver')">Driver</th>
-          <th class="p-2 border" onclick="sortTable('results', 'constructor')">Constructor</th>
+          <th class="p-2 border sortable" id="results-position" onclick="sortTable('results', 'position')">Position</th>
+          <th class="p-2 border sortable" id="results-driver" onclick="sortTable('results', 'driver')">Driver</th>
+          <th class="p-2 border sortable" id="results-constructor" onclick="sortTable('results', 'constructor')">Constructor</th>
           <th class="p-2 border">Laps</th>
           <th class="p-2 border">Points</th>
         </tr>
@@ -205,6 +205,13 @@ const updateRaceResultsHTML = (race) => {
 };
 
 function sortTable(tableType, column) {
+  document.querySelectorAll(".sortable").forEach((e) => {
+    e.innerHTML = e.innerHTML.replace("↓", "");
+  });
+  const thead = document.querySelector(`#${tableType}-${column}`);
+  if (!thead.innerHTML.includes("&darr;")) {
+    thead.innerHTML += "&darr;";
+  }
   const tableBody = document.getElementById(tableType);
   const data =
     tableType === "qualifying"
