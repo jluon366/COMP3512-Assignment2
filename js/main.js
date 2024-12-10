@@ -72,6 +72,7 @@ const showRaceInfo = async (race) => {
 
 const updateRaceResultsHTML = (race) => {
   // First Div - Basic info
+  raceResult.innerHTML = "";
   const raceNameDiv = document.createElement("div");
   raceNameDiv.classList.add("text-2xl", "font-bold", "text-center");
   raceNameDiv.innerText = `Results for ${race.name}`;
@@ -101,7 +102,7 @@ const updateRaceResultsHTML = (race) => {
 
   // Third Div - Qualifying Table
   const qualifyingDiv = document.createElement("div");
-  qualifyingDiv.classList.add("max-h-[400px]", "overflow-auto", "mt-8");
+  qualifyingDiv.classList.add("max-h-[390px]", "overflow-auto", "mt-8");
   qualifyingDiv.innerHTML = `<h2 class="text-lg text-center font-semibold mb-4 bg-white sticky top-0">Qualifying</h2>`;
   const qualifyingTable = document.createElement("table");
   qualifyingTable.className =
@@ -309,7 +310,7 @@ updateCircuitModalHTML = (data) => {
     <p>Name: ${data.name}</p>
     <p>${data.location}, ${data.country}</p>
     <a href="${data.url}" target="_blank" class="text-blue-400">More Details</a>
-    <img src="https://placehold.co/400" class="max-w-400" />
+    <img src="https://placehold.co/400" class="max-w-200 w-[200px] mx-auto" />
   `;
 };
 
@@ -319,7 +320,7 @@ const updateDriverModalHTML = (data) => {
     <p>Name: ${data.forename} ${data.surname}</p>
     <p>Nationality: ${data.nationality}</p>
     <a href="${data.url}" target="_blank" class="text-blue-400">More Details</a>
-    <img src="https://placehold.co/400" />
+    <img src="https://placehold.co/400" class="w-[200px] mx-auto" />
   `;
 
   // Construct the right (article) HTML
@@ -489,7 +490,6 @@ const showSeasonInfo = (season) => {
 const handleSeasonChange = async (event) => {
   const value = Number(event.target.value);
   state.season = value;
-  console.log(value, state.races);
   raceYear.textContent = value;
   changeView("race");
 

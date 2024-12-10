@@ -11,7 +11,8 @@
 <body>
     <div class="container mx-auto p-1">
         <header class="bg-gray-100 rounded-md relative">
-            <a href="/" class="bg-blue-400 text-white p-4 rounded-md absolute top-[10px] left-[10px]">Home</a>
+            <a href="./index.html" 
+                class="bg-blue-400 text-white p-4 rounded-md absolute top-[10px] left-[10px]">Home</a>
             <div class="flex justify-center items-center gap-2 p-6">
                 <img src="./assets/logo.png" alt="f1 car vector" class="w-20">
                 <h3 class="text-3xl uppercase font-bold tracking-wide">Formula 1 Racing</h3>
@@ -43,8 +44,8 @@
                 </aside>
                 <article 
                     class="w-full min-h-[600px] min-h bg-gray-100 rounded-md p-4 flex flex-col justify-center items-center">
-                    <img src="./assets/hero-banner.jpg" alt="" class="w-[400px]">
                     <p class="text-xl">Please select a season to view results</p>
+                    <img src="./assets/hero-banner.jpg" alt="" class="w-[400px]">
                 </article>
             </section>
 
@@ -68,6 +69,8 @@
             <div class="flex justify-between items-center">
                 <button id="modal-close" class="font-bold text-2xl mb-4 text-red-600" onclick="closeModal()">&times;
                     Close</button>
+                <button class="bg-gray-300 focus:bg-red-400 focus:text-white px-6 py-2 rounded-md"> &#10084;
+                    Favorite</button>
             </div>
             <div id="constructor-modal" class="hidden flex"></div>
             <div id="driver-modal" class="hidden flex"></div>
